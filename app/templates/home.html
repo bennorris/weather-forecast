@@ -1,0 +1,15 @@
+<h1>Current Conditions</h1>
+
+<div>
+  <form ng-submit="searchWeather()">
+    <input type="text" ng-model='searchTerm'></input>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+<div id="weatherChart"></div>
+<div>
+  <h1>City: {{ cityName }} </h1>
+  <h2>Expect: {{ currentWeatherDescription }} </h2><img src='{{icon}}'></img>
+  <h3>Current Temperature: {{ currentTemperature }} </h3>
+</div>

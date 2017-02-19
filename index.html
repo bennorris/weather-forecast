@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Emogi Weather App</title>
+    <script type="text/javascript" src="assets/js/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/controllers/HomeController.js"></script>
+    <script src="app/services/CurrentWeather.js"></script>
+    <script src="app/services/GetForecast.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="app/services/CreateChart.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+  <body ng-app="app">
+    <div ui-view></div>
+  </body>
+</html>
