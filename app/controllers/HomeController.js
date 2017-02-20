@@ -1,14 +1,14 @@
-function HomeController($scope, CurrentWeather, GetForecast, CreateChart, $window) {
+function HomeController($scope, CurrentWeather, GetForecast, CreateChart) {
+
+  $scope.$on('$viewContentLoaded', function() {
+    $scope.searchTerm = '10025';
+    $scope.searchWeather();
+  })
 
   $scope.searchTerm = '';
   $scope.infoHidden = true;
   $scope.buttonText = "More Info"
   var buttonToggle = false;
-
-  $window.onload = function() {
-        $scope.searchTerm = '10025';
-        $scope.searchWeather();
-      };
 
   $scope.searchWeather = function() {
     var oldChart = angular.element(document).find('chart');

@@ -1,6 +1,5 @@
 function CreateChart() {
 
-
   this.appendToDom = function(dataset) {
     var lows = [];
     var highs = [];
@@ -37,7 +36,6 @@ function CreateChart() {
           .attr('width', width)
           .attr('height', height)
 
-
     var xScale = d3.scaleBand()
       .domain(dayNames)
       .range([ 0, width]);
@@ -50,12 +48,10 @@ function CreateChart() {
       .domain([d3.min(lows) - 10, d3.max(highs)])
       .range([height, 0])
 
-
     var xAxis = d3.axisBottom(xScale);
     var yAxis = d3.axisLeft(yScale);
     var	yHighsRange = d3.scaleLinear().range([height, 0]).domain(0, d3.max(highs));
     var	yLowsRange = d3.scaleLinear().range([height, 0]).domain(0, d3.max(lows));
-
 
     chart.append('g')
           .attr('transform', 'translate(0,' + (height - margins.bottom) + ')')
