@@ -1,5 +1,6 @@
 function Chart() {
   return {
+    restrict: 'E',
     templateUrl: 'app/templates/chart.html'
   };
 

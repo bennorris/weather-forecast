@@ -10,96 +10,92 @@ function CreateChart() {
       highs.push(dataset[i][1]);
     }
 
-    var width = 550,
-        height = 450,
-        barWidth = 50,
-        barOffset = 5;
+    var date = new Date,
+        day = date.getDay();
 
-    var yScale = d3.scaleLinear()
-          .domain([0, d3.max(lows)])
-          .range([0, height]);
+    var dayNames = ["Sun","Mon","Tues","Wed","Thurs","Fri","Sat"];
+
+    if (day != 0) {
+      for (var i = 0; i < day; i++) {
+      dayNames.push(dayNames.splice(0, 1).toString());
+      }
+    }
+
+    var width = 550,
+        height = 400,
+        margins = {
+        top: 20,
+        right: 20,
+        bottom: 20,
+        left: 25
+      };
+
+    var header = d3.select('chart').append('h1')
+      .html('<span class="highs">Highs</span> and <span class="lows">Lows</span> for the Week');
+
+    var chart = d3.select('chart').append('svg')
+          .attr('width', width)
+          .attr('height', height)
+
 
     var xScale = d3.scaleBand()
-          .domain(d3.range(0, dataset.length))
-          .range([0, width])
+      .domain(dayNames)
+      .range([ 0, width]);
 
-    var colors = d3.scaleLinear()
-          .domain([0, dataset.length])
-          .range(['#FFB832', '#C61C6F'])
+    var indexScale = d3.scaleBand()
+      .domain(d3.range(0, dataset.length))
+      .range([0, width]);
 
-    var tooltip = d3.select('body').append('div')
-            .style('position', 'absolute')
-            .style('padding', '0 10px')
-            .style('background', 'white')
-            .style('opacity', 0)
-
-    var weatherChart = d3.select('#weatherChart').append('svg')
-      .attr('width', width)
-      .attr('height', height)
-      .append('g')
-      .style('background', 'slategray')
-      .selectAll('rect').data(dataset)
-      .enter().append('rect')
-        .style('fill', function(d,i) {
-          return colors(i);
-        })
-        .attr('width', xScale.bandwidth())
-        .attr('height', 0)
-        .attr('x', function(d,i){
-            return xScale(i);
-        })
-        .attr('y', height)
-
-        .on('mouseover', function(d) {
-          tooltip.transition()
-            .style('opacity', .9)
-
-          tooltip.html(`Low: ${d[0]}. High: ${d[1]}. Conditions: ${d[2]}.` )
-              .style('left', (d3.event.pageX) + 'px')
-              .style('top', (d3.event.pageY) + 'px')
-          d3.select(this)
-            .style('opacity', .5)
-        })
-
-        .on('mouseout', function(d) {
-          d3.select(this)
-            .style('opacity', 1)
-        })
-
-    weatherChart.transition()
-      .attr('height', function(d){
-          return yScale(d[0]);
-      })
-      .attr('y', function(d){
-          return height - (yScale(d[0]));
-      })
-      .delay(function(d,i) {
-        return i * 50;
-      })
-
-    var vGuideScale = d3.scaleLinear()
-        .domain([0, d3.max(highs)])
-        .range([height, 0]);
+    var yScale = d3.scaleLinear()
+      .domain([d3.min(lows) - 10, d3.max(highs)])
+      .range([height, 0])
 
 
-    var vAxis = d3.axisLeft()
-        .scale(vGuideScale)
-        .ticks(dataset.length)
+    var xAxis = d3.axisBottom(xScale);
+    var yAxis = d3.axisLeft(yScale);
+    var	yHighsRange = d3.scaleLinear().range([height, 0]).domain(0, d3.max(highs));
+    var	yLowsRange = d3.scaleLinear().range([height, 0]).domain(0, d3.max(lows));
 
 
+    chart.append('g')
+          .attr('transform', 'translate(0,' + (height - margins.bottom) + ')')
+          .attr('class', 'axis')
+          .call(xAxis);
 
-    var vGuide = d3.select('svg').append('g')
-        vAxis(vGuide)
-        vGuide.attr('transform', 'translate(35, 10)')
-        vGuide.selectAll('path')
-          .style({ fill: 'none', stroke: '#000'})
+    chart.append('g')
+          .attr("transform", "translate(" + (margins.left) + ",0)")
+          .attr('class', 'axis')
+          .call(yAxis)
 
-    var hAxis = d3.axisBottom()
-        .scale(xScale)
+    var line = d3.line()
+        .x(function(d,i) { return indexScale(i) + indexScale.bandwidth() / 2; })
+        .y(function(d) { return yScale(d) });
 
-    var hGuide = d3.select('svg').append('g')
-        hAxis(hGuide)
-        hGuide.attr('transform', 'translate(0, ' + (height - 30) + ')')
+    chart.append('svg:path')
+      .attr('d', line(lows))
+      .attr('stroke', '#2745ff')
+      .attr('stroke-width', 2)
+      .attr('class', 'low-line')
+      .attr('fill', 'none');
+
+    chart.append('svg:path')
+        .attr('d', line(highs))
+        .attr('stroke', '#fb386b')
+        .attr('stroke-width', 2)
+        .attr('class', 'high-line')
+        .attr('fill', 'none');
+
+    var tooltip = function(dataset) {
+      info = ''
+      for (var i = 0; i < dataset.length; i++) {
+        info += `<p>${dayNames[i]}: Low: ${Math.round(dataset[i][0])} | High: ${Math.round(dataset[i][1])} | Conditions: ${dataset[i][2]}</p>`
+      }
+      return info
+    }
+
+    var tip = d3.select('chart').append('div')
+      .html(tooltip(dataset));
+
   }
 }
 

@@ -1,0 +1,8 @@
+#weatherChart {
+  margin: 5%;
+}
+
+.axis {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 15px;
+}

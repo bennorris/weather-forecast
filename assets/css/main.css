@@ -1,0 +1,74 @@
+body {
+  font-family: 'Chivo', sans-serif;
+  height: 100%;
+}
+
+.main-page-header {
+  text-align: center;
+  background-color: #F4FFBE;
+}
+
+.main-page-header h1 {
+  color: #2745ff;
+  font-size: 62px;
+  font-family: 'Chivo', sans-serif;
+  font-weight: 900;
+  padding: 2%;
+}
+
+.forecast-box{
+  background-color: white;
+}
+.current-weather-box{
+  background-color: #2745ff;
+  color: white;
+  padding-bottom: 5%;
+  height: 100%;
+}
+
+.current-weather-box h2, h3, form {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.current-weather-box input {
+  color: #2745ff;
+}
+
+.highs {
+  color: #fb386b;
+}
+
+.lows {
+  color: #2745ff;
+}
+
+.citySearch {
+  padding-top: 2%;
+}
+
+.citySearch input {
+  font-size: 1.5em;
+}
+
+#more-info {
+  color: #fb386b;
+  background-color: white;
+}
+
+#more-info:hover {
+  color: white;
+  background-color: #fb386b;
+}
+
+chart div {
+  display: none;
+}
+
+chart:hover div {
+  display: inline;
+}
+
+.error-text {
+  font-family: 'Source Sans Pro', sans-serif;
+  margin-top: 1%;
+}
